@@ -1,0 +1,47 @@
+Gestion de comptes bancaires
+
+On souhaite gérer les comptes bancaires de la banque CDA Banque.
+Ecrire un programme qui permet d’ouvrir un compte bancaire pour les clients de la banque CDA BANQUE, sachant que le compte bancaire contient les informations suivantes : 
+Numéro de compte, Code agence, client (Identifiant client, nom, prénom, date de naissance, email), solde, découvert autorisé O/N
+3 types de comptes possibles :
+-	Compte courant (Frais de tenue de compte = 25 euros / an)
+-	Livret A  ( Frais de tenue de compte = Frais de tenue de compte + 10% de l’épargne / an)
+-	Plan épargne logement ( Frais de tenue de compte = Frais de tenue de compte + 2,5% de l’épargne / an)
+Chaque client peut avoir 3 comptes maximum
+L’agence de domiciliation du compte contient les informations suivantes : Code agence, nom de l’agence, Adresse
+Règles métier : 
+Numéro de compte bancaire : numérique de 11 chiffres
+Identifiant client : Alphanumérique composé de deux Caractères majuscules + 6 chiffres
+Code agence : numérique de 3 chiffres
+
+Nous proposons le menu ci-dessous mais vous pouvez proposer un autre menu pour mieux utiliser l’application 
+
+Menu :
+1-	Créer une agence
+2-	Créer un client
+3-	Créer un compte bancaire
+4-	Recherche de compte (numéro de compte)
+5-	Recherche de client (Nom, Numéro de compte, identifiant de client)
+6-	Afficher la liste des comptes d’un client (identifiant client)
+7-	Imprimer les infos client (identifiant client)
+8-	Quitter le programme 
+
+
+Le choix « 7 » permet d’imprimer les infos client dans un fichier txt sous le format suivant : 
+
+
+
+
+      				Fiche client
+
+Numéro client : AF657545
+Nom : Nom_du_client
+Prénom : Prénom_du_client
+Date de naissance : Date de naissance du client
+
+Liste de compte
+Numéro de compte                                                Solde
+01345267891					1500 euros                                                   :-)
+23445566778					6733 euros                                                   :-)
+23445966211     				- 45   euros                                                    :-( 
+
