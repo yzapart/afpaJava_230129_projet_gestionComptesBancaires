@@ -1,14 +1,15 @@
 package afpaJava_231029_projet_gestion_comptes_bancaires;
 
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class Menu {
 	
@@ -69,9 +70,9 @@ public class Menu {
 		case 6: 
 			menu6();
 			break;			
-//		case 7: 
-//			menu7();
-//			break;
+		case 7: 
+			menu7();
+			break;
 		case 8: 
 			menuQ();
 			break;
@@ -240,6 +241,46 @@ public class Menu {
 		String idClient = scan.nextLine();
 		genericCompte.afficher(Banque.listeComptesIdClient(idClient));
 		retour();
+	}
+	
+	
+	
+	static void menu7() {
+		System.out.println("--- Impression fiche client :");
+		System.out.println("Entrer n° client : ");
+		String idClient = scan.nextLine();
+		
+		Client client = Banque.rechercheClientIdClient(idClient);
+		
+		ArrayList<String> lines = new ArrayList<String>();
+        String fileName = "fiche_client_" + client.getNom() + "_" + client.getId_client() + ".txt";
+        lines.add("Fiche client");
+        lines.add("\n");
+        lines.add("Numéro client : " + client.getId_client());
+        lines.add("Nom : " + client.getNom());
+        lines.add("Prénom : " + client.getPrenom());
+        lines.add("Date de naissance " + client.getDateNaissance().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        lines.add("\n");
+        lines.add("--- Liste de comptes : ---");
+        for (Compte compte : Banque.listeComptesIdClient(idClient)) {
+        	lines.add(compte.toStr());
+        }      
+        
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            for (String line : lines) {
+                bufferedWriter.write(line);
+                bufferedWriter.newLine();
+            }
+
+            bufferedWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error writing to file '" + fileName + "'");
+        }
+	
+	retour();
 	}
 		
 

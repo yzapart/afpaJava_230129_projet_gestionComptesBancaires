@@ -26,11 +26,11 @@ public class Demo_comptes_bancaires {
 		System.out.println("---");
 		
 
-		if (Banque.rechercheCompte(5) != null)	System.out.println(Banque.rechercheCompte(5).toStr());
-		genericClient.afficher(Banque.rechercheClientNom("Dion"));
-		if (Banque.rechercheClientIdCompte(11) != null) System.out.println(Banque.rechercheClientIdCompte(11).toStr());
-		System.out.println(Banque.rechercheClientIdClient("VA000004").toStr());
-		genericCompte.afficher(Banque.listeComptesIdClient("MD000009"));
+//		if (Banque.rechercheCompte(5) != null)	System.out.println(Banque.rechercheCompte(5).toStr());
+//		genericClient.afficher(Banque.rechercheClientNom("Dion"));
+//		if (Banque.rechercheClientIdCompte(11) != null) System.out.println(Banque.rechercheClientIdCompte(11).toStr());
+//		System.out.println(Banque.rechercheClientIdClient("VA000004").toStr());
+//		genericCompte.afficher(Banque.listeComptesIdClient("MD000009"));
 		
 		Menu.afficherMenu("");
 		

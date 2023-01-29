@@ -1,0 +1,12 @@
+Fiche client
+
+
+Numéro client : VA000004
+Nom : Vizorek
+Prénom : Alex
+Date de naissance 23-04-2004
+
+
+--- Liste de comptes : ---
+id: 00000000008	codeAg: 146	Courant	Vizorek Alex	10.83   	Déc. non-autorisé
+id: 00000000009	codeAg: 152	PEL	Vizorek Alex	18831.75   	Déc. autorisé
