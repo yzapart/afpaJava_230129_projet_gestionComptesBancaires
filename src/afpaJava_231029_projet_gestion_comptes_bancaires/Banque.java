@@ -68,7 +68,7 @@ public class Banque {
 	public static ArrayList<Compte> listeComptesIdClient(String idClient) {
 		ArrayList<Compte> res = new ArrayList<>();
 		for (Compte compte : listeComptes) {
-			if (compte.getClient().getId_client().equals(idClient) == true) {
+			if (compte.getClient().getId_client().toLowerCase().equals(idClient.toLowerCase()) == true) {
 				res.add(compte);
 			}
 		}

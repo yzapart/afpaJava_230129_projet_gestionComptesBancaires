@@ -1,0 +1,12 @@
+Fiche client
+
+
+Numéro client : ZY000010
+Nom : Zapart
+Prénom : Yohann
+Date de naissance 26-06-1986
+
+
+--- Liste de comptes : ---
+id: 00000000015	codeAg: 456	Courant	Zapart Yohann	 0.0   	Déc. autorisé
+id: 00000000016	codeAg: 123	Liv. A	Zapart Yohann	 0.0   	Déc. autorisé

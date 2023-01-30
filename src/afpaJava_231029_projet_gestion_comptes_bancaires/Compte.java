@@ -49,13 +49,14 @@ public class Compte {
 	}
 	
 	public String toStr() {
-		String dec = (decouvertAutorise == true) ? "Déc. autorisé" : "Déc. non-autorisé"; 
+		String dec = (decouvertAutorise == true) ? "Déc. autorisé" : "Déc. non-autorisé";
+		String neg = (solde >= 0 == true) ? " " : "";
 		return  "id: " + idCompte + 
 				"\tcodeAg: " + codeAgence + 
 				"\t" + typeCompte + 
 				"\t" + client.getNom() + 
 				" " + client.getPrenom() + 
-				"\t" + solde + "   "+
+				"\t" + neg + "" + solde + "   "+
 				"\t" + dec;
 
 	}
