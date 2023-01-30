@@ -28,7 +28,8 @@ public class Demo_comptes_bancaires {
 	static GenericClass<Compte> genericCompte = new GenericClass<>();
 
 	
-	static String listeMenu[] = { "1: Créer une agence",
+	static String listeMenu[] = { 
+			  "1: Créer une agence",
 			  "2: Créer un client",
 			  "3: Créer un compte bancaire",
 			  " ", 
@@ -77,6 +78,8 @@ public class Demo_comptes_bancaires {
 		// menu utilisateur
 		afficherMenu("");
 		
+		// vérifier les entrées id client./compte/agence avec regex
+		
 	}
 
 	
@@ -86,7 +89,7 @@ public class Demo_comptes_bancaires {
 		String listeRues[] = {"Pasteur", "Carnot", "Marceau", "Dali", "Monet", "Legrand", "Blériot" };
 		for (int i = 0; i < listeVilles.length; i++) {
 			String nom = "CDA " + listeVilles[i];
-			String codeAgence = dec3.format(random.nextInt(1, 199));
+			String codeAgence = dec3.format(random.nextInt(1, 199));//entier de 
 			String adresse = random.nextInt(1, 29) + " rue " + listeRues[random.nextInt(0,listeRues.length-1)];
 			genericAgence.save(new Agence(codeAgence, nom, adresse), Banque.listeAgences);
 		}
@@ -213,15 +216,25 @@ public class Demo_comptes_bancaires {
 		cls();
 		System.out.println("--- Création agence ---");
 		System.out.println("Code agence : ");
-		String codeAgence = dec3.format(scan.nextInt()); scan.nextLine();
-		System.out.println("Nom de l'agence : ");
-		String nomAgence = scan.nextLine();
-		System.out.println("Adresse : ");
-		String adresseAgence = scan.nextLine();
+		String codeAgence = scan.nextLine();
 		
-		Banque.listeAgences.add(new Agence(codeAgence, nomAgence, adresseAgence));
-		listeAgencesToCsv();
-		System.out.println("Agence " + codeAgence + "\t" + nomAgence + "\t" + adresseAgence + "\tcréée.");
+		if (Utils.regexOk(codeAgence, "^[0-9]{3}$") == true) {
+			System.out.println("Nom de l'agence : ");
+			String nomAgence = scan.nextLine();
+			System.out.println("Adresse : ");
+			String adresseAgence = scan.nextLine();
+			
+			Banque.listeAgences.add(new Agence(codeAgence, nomAgence, adresseAgence));
+			listeAgencesToCsv();
+			System.out.println("Agence " + codeAgence + "\t" + nomAgence + "\t" + adresseAgence + "\tcréée.");
+		} else {
+			System.out.println("Mauvaise saisie du code agence (format '000' : 3 chiffres)");
+		}
+		
+		
+		
+		
+		
 		retour();
 	}
 
@@ -286,12 +299,18 @@ public class Demo_comptes_bancaires {
 		cls();
 		System.out.println("--- Recherche de compte :");
 		System.out.println("Entrer n° du compte");
-		int idCompte = scan.nextInt(); scan.nextLine();
-		if (Banque.rechercheCompte(idCompte) != null) {
-			System.out.println(Banque.rechercheCompte(idCompte).toStr());
+		String idCompteString = scan.nextLine();
+		if (Utils.regexOk(idCompteString, "^[0-9]{11}$") == true) {
+			int idCompte = Integer.parseInt(idCompteString);
+			if (Banque.rechercheCompte(idCompte) != null) {
+				System.out.println(Banque.rechercheCompte(idCompte).toStr());
+			} else {
+				System.out.println("Compte introuvable");
+			}		
 		} else {
-			System.out.println("Compte introuvable");
-		}		
+			System.out.println("Mauvaise saisie de n° de compte (format '00000000000' : 11 chiffres)");
+		}
+		
 		retour();
 	}
 	
@@ -316,20 +335,29 @@ public class Demo_comptes_bancaires {
 			break;
 		case 2:
 			System.out.println("id du compte : ");
-			int idCompte = scan.nextInt(); scan.nextLine();
-			if (Banque.rechercheClientIdCompte(idCompte) != null) {
-				System.out.println(Banque.rechercheClientIdCompte(idCompte).toStr());
+			String idCompteString = scan.next();
+			if (Utils.regexOk(idCompteString, "^[0-9]{11}$") == true) {
+				int idCompte = Integer.parseInt(idCompteString);
+				if (Banque.rechercheClientIdCompte(idCompte) != null) {
+					System.out.println(Banque.rechercheClientIdCompte(idCompte).toStr());
+				} else {
+					System.out.println("Client introuvable");
+				}
 			} else {
-				System.out.println("Client introuvable");
+				System.out.println("Mauvaise saisie de n° de compte (format '00000000000' : 11 chiffres)");
 			}
 			break;
 		case 3:
 			System.out.println("id du client: ");
 			String idClient = scan.nextLine();
-			if (Banque.rechercheClientIdClient(idClient) != null) {
-				System.out.println(Banque.rechercheClientIdClient(idClient).toStr());
+			if (Utils.regexOk(idClient, "^[A-Z]{2}[0-9]{6}$") == true) {
+				if (Banque.rechercheClientIdClient(idClient) != null) {
+					System.out.println(Banque.rechercheClientIdClient(idClient).toStr());
+				} else {
+					System.out.println("Client introuvable");
+				}
 			} else {
-				System.out.println("Client introuvable");
+				System.out.println("Mauvaise saisie de n° client (format 'AA000000' : 2 Lettres Maj + 6 chiffres)");
 			}
 			break;
 		}
@@ -341,9 +369,17 @@ public class Demo_comptes_bancaires {
 	static void menu6() {
 		cls();
 		System.out.println("--- Listing comptes client :");
-		System.out.println("Entrer n° client : ");
+		System.out.println("Entrer id client : ");
 		String idClient = scan.nextLine();
-		genericCompte.afficher(Banque.listeComptesIdClient(idClient));
+		if (Utils.regexOk(idClient, "^[A-Z]{2}[0-9]{6}$") == true) {
+			if (Banque.rechercheClientIdClient(idClient) != null) {
+				genericCompte.afficher(Banque.listeComptesIdClient(idClient));
+			} else {
+				System.out.println("Client introuvable");
+			}
+		} else {
+			System.out.println("Mauvaise saisie de n° client (format 'AA000000' : 2 Lettres Maj + 6 chiffres)");
+		}
 		retour();
 	}
 	
@@ -354,36 +390,44 @@ public class Demo_comptes_bancaires {
 		System.out.println("Entrer n° client : ");
 		String idClient = scan.nextLine();
 		
-		Client client = Banque.rechercheClientIdClient(idClient);
-		
-		ArrayList<String> lines = new ArrayList<String>();
-        String fileName = "fiche_client_" + client.getNom() + "_" + client.getId_client() + ".txt";
-        lines.add("Fiche client");
-        lines.add("\n");
-        lines.add("Numéro client : " + client.getId_client());
-        lines.add("Nom : " + client.getNom());
-        lines.add("Prénom : " + client.getPrenom());
-        lines.add("Date de naissance " + client.getDateNaissance().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-        lines.add("\n");
-        lines.add("--- Liste de comptes : ---");
-        for (Compte compte : Banque.listeComptesIdClient(idClient)) {
-        	lines.add(compte.toStr());
-        }      
-        
-        try {
-            FileWriter fileWriter = new FileWriter(fileName);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+		if (Utils.regexOk(idClient, "^[A-Z]{2}[0-9]{6}$") == true) {
+			if (Banque.rechercheClientIdClient(idClient) != null) {
+				Client client = Banque.rechercheClientIdClient(idClient);
+				
+				ArrayList<String> lines = new ArrayList<String>();
+		        String fileName = "fiche_client_" + client.getNom() + "_" + client.getId_client() + ".txt";
+		        lines.add("Fiche client");
+		        lines.add("\n");
+		        lines.add("Numéro client : " + client.getId_client());
+		        lines.add("Nom : " + client.getNom());
+		        lines.add("Prénom : " + client.getPrenom());
+		        lines.add("Date de naissance " + client.getDateNaissance().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+		        lines.add("\n");
+		        lines.add("--- Liste de comptes : ---");
+		        for (Compte compte : Banque.listeComptesIdClient(idClient)) {
+		        	lines.add(compte.toStr());
+		        }      
+		        
+		        try {
+		            FileWriter fileWriter = new FileWriter(fileName);
+		            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-            for (String line : lines) {
-                bufferedWriter.write(line);
-                bufferedWriter.newLine();
-            }
+		            for (String line : lines) {
+		                bufferedWriter.write(line);
+		                bufferedWriter.newLine();
+		            }
 
-            bufferedWriter.close();
-        } catch (IOException e) {
-            System.out.println("Error writing to file '" + fileName + "'");
-        }
-	
+		            bufferedWriter.close();
+		        } catch (IOException e) {
+		            System.out.println("Error writing to file '" + fileName + "'");
+		        }
+				
+			} else {
+				System.out.println("Client introuvable");
+			}
+		} else {
+			System.out.println("Mauvaise saisie de n° client (format 'AA000000' : 2 Lettres Maj + 6 chiffres)");
+		}
 	retour();
 	}
 		
